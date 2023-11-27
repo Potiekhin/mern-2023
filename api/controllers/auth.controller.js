@@ -25,7 +25,7 @@ export const signin = async (req, res, next) => {
     const validPassword = bcryptjs.compareSync(password, user.password);
     if (!validPassword) return next(errorHandler(401, "Invalid Password!"));
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    // return user without password field
+    // return a new user object without password field
     const {password: _, ...newUser} = user._doc
     res.cookie("access_token", token, { httpOnly: true }).status(200).json(newUser);
   } catch (err) {
